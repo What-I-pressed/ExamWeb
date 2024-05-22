@@ -40,7 +40,12 @@ namespace _4.WPFClientChat
             InitializeComponent();
             _userImage = String.Empty;
         }
-
+        /// <summary>
+        /// Відкриваємо вікно вибору файла, конвертуємо цей файл у байти, а потім в стрінгу й зберігаємо в json.
+        /// Дальше робимо запит на сервер й записуємо в потік із запиту байти цього фото
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnPhotoSelect_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dlg = new OpenFileDialog();
@@ -81,6 +86,11 @@ namespace _4.WPFClientChat
 
         }
 
+       /// <summary>
+       /// Отримуємо фото з url, налаштовуємо grid й додаємо текст
+       /// </summary>
+       /// <param name="text"></param>
+       /// <param name="imageUrl"></param>
         private void ViewMessage(string text, string imageUrl)
         {
             var grid = new Grid();
@@ -109,6 +119,12 @@ namespace _4.WPFClientChat
             lbInfo.ScrollIntoView(lbInfo.Items.CurrentItem);
         }
 
+
+        /// <summary>
+        /// Робим перевірки перед підключенням до сервера, а потім підключаємся
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void btnConnect_Click(object sender, RoutedEventArgs e)
         {
             if(string.IsNullOrEmpty(_userImage))
@@ -123,7 +139,7 @@ namespace _4.WPFClientChat
             }
             try
             {
-                IPAddress ip = IPAddress.Parse("127.0.0.1");
+                IPAddress ip = IPAddress.Parse("4.232.129.33");
                 int port = 1243;
                 _message.UserId = Guid.NewGuid().ToString();
                 _message.Name = txtUserName.Text;
@@ -146,6 +162,10 @@ namespace _4.WPFClientChat
             }
         }
 
+        /// <summary>
+        /// читаємо потік й перетворюємо його в стрінгу
+        /// </summary>
+        /// <param name="client"></param>
         private void ResponseData(TcpClient client)
         {
             NetworkStream ns = client.GetStream();
